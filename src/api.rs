@@ -1,5 +1,6 @@
 use crate::{
-    FSRS, FSRSItem, FSRSReview, MemoryState, NextStates, current_retrievability as retrievability,
+    ComputeParametersInput, FSRS, FSRSItem, FSRSReview, MemoryState, NextStates,
+    compute_parameters as train_parameters, current_retrievability as retrievability,
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -70,6 +71,21 @@ pub fn memory_state(
         )
         .map(Into::into)
         .map_err(error_to_string)
+}
+
+pub fn compute_parameters(items: Vec<Vec<FsrsReview>>) -> Result<Vec<f32>, String> {
+    let train_set = items
+        .into_iter()
+        .map(|reviews| FSRSItem {
+            reviews: reviews.into_iter().map(Into::into).collect(),
+        })
+        .collect();
+
+    train_parameters(ComputeParametersInput {
+        train_set,
+        ..Default::default()
+    })
+    .map_err(error_to_string)
 }
 
 pub fn memory_state_from_sm2(
