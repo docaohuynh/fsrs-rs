@@ -1,5 +1,7 @@
 #![allow(clippy::single_range_in_vec_init)]
 #![allow(clippy::needless_range_loop)]
+
+pub mod api;
 mod analytic;
 #[cfg(test)]
 mod batch_shuffle;
@@ -11,6 +13,7 @@ mod cost_adr;
 mod dataset;
 mod error;
 mod inference;
+mod frb_generated;
 mod model;
 mod parameter_clipper;
 mod parameter_initialization;
